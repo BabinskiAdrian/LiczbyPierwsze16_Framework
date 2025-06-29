@@ -16,22 +16,37 @@ namespace LiczbyPierwsze16_Framework
     {
         static void Main(string[] args)
         {
-            int rangeTo = 10000;
+            int rangeTo = 100000;
             int columns = 60;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             // funkcja
-            FindPrimeNumbersInColumns(rangeTo, columns);
-
+            Stoper(FindPrimeNumbersInColumns, rangeTo, columns); //mierzenei czasu wykonywania funkcji
+            //FindPrimeNumbersInColumns(rangeTo, columns)
             stopwatch.Stop();
             Console.WriteLine($"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Czas wykonania: {stopwatch.Elapsed.TotalSeconds} s");
 
             //FindPrimeNumbers(rangeTo);
 
 
         }
+
+        static void Stoper(Action<int, int> action, int rangeTo, int columns)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            // tutaj kod do pomiaru czasu
+            action(rangeTo, columns);
+
+            stopwatch.Stop();
+            Console.WriteLine($"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Czas wykonania: {stopwatch.Elapsed.TotalSeconds} s");
+        }
+
 
         static void CheckTrivialPrimes(int n)
         {
