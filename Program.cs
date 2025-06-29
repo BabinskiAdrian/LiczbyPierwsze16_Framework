@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -14,9 +16,19 @@ namespace LiczbyPierwsze16_Framework
     {
         static void Main(string[] args)
         {
-            int rangeTo = 0;
+            int rangeTo = 10000;
+            int columns = 60;
 
-            FindPrimeNumbers(rangeTo);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            // funkcja
+            FindPrimeNumbersInColumns(rangeTo, columns);
+
+            stopwatch.Stop();
+            Console.WriteLine($"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms");
+
+            //FindPrimeNumbers(rangeTo);
 
 
         }
@@ -49,10 +61,12 @@ namespace LiczbyPierwsze16_Framework
             }
         }
 
-        static void FindPrimeNumbers15(int n)
+        static void FindPrimeNumbersInColumns(int n, int columns)
         {
             int numberOfDigits = n.ToString().Length+2;
-            if(n <= 3)
+            int counterColumns = columns;
+            ConsoleColor primeColor = ConsoleColor.Green;
+            if (n <= 3)
             {
                 CheckTrivialPrimes(n);
                 return;
@@ -60,11 +74,26 @@ namespace LiczbyPierwsze16_Framework
 
             // wypisanie podstawowych liczb pierwszych
             Console.WriteLine($"Podany zakres {n}");
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(1 + new string(' ',numberOfDigits-1) + "|");
-            Console.WriteLine(2 + new string(' ', numberOfDigits-1) + "|");
-            Console.WriteLine(3 + new string(' ', numberOfDigits-1) + "|");
+
+            // 1
+            Console.BackgroundColor = primeColor;
+            Console.Write(1 + new string(' ', numberOfDigits - 1));
             Console.ResetColor();
+            Console.Write("|");
+
+            // 2
+            Console.BackgroundColor = primeColor;
+            Console.Write(2 + new string(' ', numberOfDigits - 1));
+            Console.ResetColor();
+            Console.Write("|");
+
+            // 3
+            Console.BackgroundColor = primeColor;
+            Console.Write(3 + new string(' ', numberOfDigits - 1));
+            Console.ResetColor();
+            Console.Write("|");
+
+            counterColumns -= 3;
 
             // pętla dla reszty
             for (int i = 4; i <= n; i++)
@@ -83,18 +112,37 @@ namespace LiczbyPierwsze16_Framework
                             isPrime = false;
                         }
                     }
+
                     if (isPrime)
                     {
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(i + new string(' ', numberOfDigits - i.ToString().Length) + "|");
+
+
+                        Console.BackgroundColor = primeColor;
+                        Console.Write(i + new string(' ', numberOfDigits - i.ToString().Length));
                         Console.ResetColor();
+                        Console.Write("|");
+                        counterColumns--;
                     }
                     else
                     {
-                        Console.WriteLine(i + new string(' ', numberOfDigits - i.ToString().Length) + "|");
+                        Console.Write(i + new string(' ', numberOfDigits - i.ToString().Length) + "|");
+                        counterColumns--;
                     }
                 }
+                else
+                {
+                    Console.Write(i + new string(' ', numberOfDigits - i.ToString().Length) + "|");
+                    counterColumns--;
+                }
+
+                if (counterColumns <= 0)
+                {
+                    Console.WriteLine();
+                    counterColumns = columns;
+                }
             }
+            Console.WriteLine();
+            Console.WriteLine("To wszystko, pozdrawiam");
         }
 
         static void FindPrimeNumbers(int n)
