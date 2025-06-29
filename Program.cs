@@ -17,17 +17,12 @@ namespace LiczbyPierwsze16_Framework
         static void Main(string[] args)
         {
             int rangeTo = 100000;
-            int columns = 60;
+            int columns = 60; //sprawdzić jak się eliminują
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            // funkcja
-            Stoper(FindPrimeNumbersInColumns, rangeTo, columns); //mierzenei czasu wykonywania funkcji
+            // funkcja            
             //FindPrimeNumbersInColumns(rangeTo, columns)
-            stopwatch.Stop();
-            Console.WriteLine($"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms");
-            Console.WriteLine($"Czas wykonania: {stopwatch.Elapsed.TotalSeconds} s");
+            Stoper(FindPrimeNumbersInColumns, rangeTo, columns); //mierzenei czasu wykonywania funkcji
+
 
             //FindPrimeNumbers(rangeTo);
 
@@ -39,8 +34,9 @@ namespace LiczbyPierwsze16_Framework
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            // tutaj kod do pomiaru czasu
-            action(rangeTo, columns);
+
+            action(rangeTo, columns); // wywołanie przekazywanej funckji "akcji:
+
 
             stopwatch.Stop();
             Console.WriteLine($"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms");
@@ -109,7 +105,8 @@ namespace LiczbyPierwsze16_Framework
             Console.Write("|");
 
             counterColumns -= 3;
-
+            Console.WriteLine();
+            counterColumns = 3;
             // pętla dla reszty
             for (int i = 4; i <= n; i++)
             {
